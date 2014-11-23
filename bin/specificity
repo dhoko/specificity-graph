@@ -48,10 +48,7 @@ if(input) {
 
     if(output) {
       var out = fs.createWriteStream(output);
-      out.write(new Buffer(JSON.stringify({
-        src: specificity,
-        stats: statsSpecificity
-      })));
+      out.write(new Buffer(JSON.stringify(statsSpecificity)));
       out.end();
     }
 
@@ -75,10 +72,7 @@ if(!input) {
       var specificity      = parser(buffer);
       var statsSpecificity = stats(specificity);
 
-      console.log(JSON.stringify({
-        src: specificity,
-        stats: statsSpecificity
-      },null, 2));
+      console.log(JSON.stringify(statsSpecificity,null, 2));
 
     }catch(e) {
       error(e);
