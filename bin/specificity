@@ -19,7 +19,7 @@ program
   .parse(process.argv);
 
 var input = program.args[0] ? path.resolve(program.args[0]) : null;
-var output = program.ouput ? path.resolve(program.output) : null;
+var output = (program.args[1] || program.ouput) ? path.resolve(program.args[1] || program.output) : null;
 
 function error(e) {
   console.log(colors.bold(colors.red('Specificity encounters an error')));
@@ -28,7 +28,6 @@ function error(e) {
   e.stack && console.log(e.stack);
   process.exit(2);
 }
-
 
 if (input && !fs.existsSync(input)) {
   console.error(colors.red('Unable to read file'), input);
@@ -40,12 +39,22 @@ if(input) {
   try {
     var css = fs.readFileSync(input);
     var specificity = parser(css.toString());
+    var statsSpecificity = stats(specificity);
 
     if(program.verbose) {
-      var output = stats(specificity);
-      outputCli.display(output, specificity);
-      program.analytics && outputCli.analytics(output);
+      outputCli.display(statsSpecificity, specificity);
+      program.analytics && outputCli.analytics(statsSpecificity);
     }
+
+    if(output) {
+      var out = fs.createWriteStream(output);
+      out.write(new Buffer(JSON.stringify({
+        src: specificity,
+        stats: statsSpecificity
+      })));
+      out.end();
+    }
+
   }catch(e) {
     error(e);
   }
@@ -63,9 +72,14 @@ if(!input) {
 
   process.stdin.on('end', function() {
     try {
-      var specificity = parser(buffer);
-      var output = stats(specificity);
-      console.log('yolo')
+      var specificity      = parser(buffer);
+      var statsSpecificity = stats(specificity);
+
+      console.log(JSON.stringify({
+        src: specificity,
+        stats: statsSpecificity
+      },null, 2));
+
     }catch(e) {
       error(e);
     }
