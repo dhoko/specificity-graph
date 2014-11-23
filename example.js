@@ -10,7 +10,6 @@ httpRequest.onreadystatechange = function (data) {
 
   if(httpRequest.readyState == 4 && httpRequest.status == 200) {
     var json = JSON.parse(httpRequest.responseText);
-
     specificityGraph.draw(json.stats,{
       svgSelector: '.js-graph'
     });

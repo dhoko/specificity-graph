@@ -24,6 +24,7 @@
     "graph"
   ],
   "dependencies": {
+    "chart.js": "^1.0.1-beta.2",
     "cli-color": "^0.3.2",
     "cli-table": "^0.3.1",
     "commander": "^2.5.0",
