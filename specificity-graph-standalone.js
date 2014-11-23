@@ -14,9 +14,19 @@ var _update = function(css, opts){
   lineChart.update(data);
 }
 
+var _draw = function(config, opts){
+  lineChart.create(config,opts);
+}
+
+var _refresh = function(config){
+  lineChart.update(config);
+}
+
 module.exports = {
   create: _create,
   update: _update,
+  draw: _draw,
+  refresh: _refresh,
   nextFocus: lineChart.nextFocus,
   prevFocus: lineChart.prevFocus
 };
@@ -115,6 +125,16 @@ var lineFunc = d3.svg.line()
   })
   .interpolate('linear');
 
+
+var lineFunc2 = d3.svg.line()
+  .x(function(d,idx) {
+    return _state.d3_x(d[_state.data_attribute_name_x]);
+  })
+  .y(function(d) {
+    return _state.d3_y(d['average']);
+  })
+  .interpolate('linear');
+
 var _updateFocus = function(index){
   var index = Math.min(Math.max(0, index), _state.data.length-1);
   _state.active_index = index;
@@ -134,7 +154,8 @@ var _updateFocus = function(index){
 }
 
 var _create =  function(data, opts){
-  _state.data = data;
+  _state.max = conf.max;
+  _state.data = conf.data;
   var opts = opts || {};
 
   _state.width = opts.width || _state.width,
@@ -151,11 +172,15 @@ var _create =  function(data, opts){
 
   //below elements don't change based on data
 
+  var axisScale = d3.scale.linear()
+                    .domain([0, _state.max])
+                    .range([0, _state.max]);
+
   var xAxis = d3.svg.axis()
         .scale(_state.d3_x)
         .tickSize(0),
       yAxis = d3.svg.axis()
-        .scale(_state.d3_y)
+        .scale(axisScale)
         .tickSize(0)
         .orient('left');
 
@@ -267,11 +292,17 @@ var _update = function(data){
     _state.vis.append('svg:path')
       .attr('d', lineFunc(_state.data))
       .attr('class', 'line-path');
+
+    _state.vis.append('svg:path')
+      .attr('d', lineFunc2(_state.data))
+      .attr('class', 'line-path-average');
   } else {
     _state.vis.insert('svg:path', '.line-path')
       .attr('d', lineFunc(_state.data))
       .attr('class', 'line-path');
-
+    _state.vis.append('svg:path')
+      .attr('d', lineFunc2(_state.data))
+      .attr('class', 'line-path-average');
     document.querySelector('.line-path:last-of-type').remove();
   }
 }
@@ -4559,7 +4590,7 @@ function amdefine(module, requireFn) {
 
 module.exports = amdefine;
 
-}).call(this,require('_process'),"/node_modules\\css-parse\\node_modules\\css\\node_modules\\source-map\\node_modules\\amdefine\\amdefine.js")
+}).call(this,require('_process'),"/node_modules/css-parse/node_modules/css/node_modules/source-map/node_modules/amdefine/amdefine.js")
 },{"_process":6,"path":5}],29:[function(require,module,exports){
 // Copyright 2014 Simon Lydell
 // X11 (“MIT”) Licensed. (See LICENSE.)
