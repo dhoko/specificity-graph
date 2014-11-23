@@ -15,32 +15,45 @@ program
   .option('-l, --limit', 'Add a limit for selector (over this limit, selectors are bad). Default 25')
   .option('-a, --analytics', 'Display analytics about your CSS')
   .option('-v, --verbose')
-  .option('-o, --open', 'Load a CSS')
+  .option('-o, --output', 'Ouput destination')
   .parse(process.argv);
 
 var input = program.args[0] ? path.resolve(program.args[0]) : null;
 var output = program.ouput ? path.resolve(program.output) : null;
-var verbose = program.verbose
 
 if (input && !fs.existsSync(input)) {
-  console.error(colors.red("Unable to read file"), input)
-  process.exit(1)
+  console.error(colors.red('Unable to read file'), input);
+  process.exit(1);
 }
 
-console.log(input)
+if(input) {
 
-// process.stdin.resume();
-// process.stdin.setEncoding('utf8');
+  var css = fs.readFileSync(input);
+  var specificity = parser(css.toString());
 
-// var buffer = '';
-// process.stdin.on('data', function(data) {
-//     buffer += data;
-// });
+  if(program.verbose) {
+    var output = stats(specificity);
+    outputCli.display(output, specificity);
+    program.analytics && outputCli.analytics(output);
+  }
+}
 
-// process.stdin.on('end', function() {
-//   var specificity = parser(buffer);
-//   var output = stats(specificity);
 
-//   outputCli.display(output, specificity);
-//   outputCli.analytics(output);
-// });
+
+// console.log(input)
+
+if(!input) {
+  process.stdin.resume();
+  process.stdin.setEncoding('utf8');
+
+  var buffer = '';
+  process.stdin.on('data', function(data) {
+      buffer += data;
+  });
+
+  process.stdin.on('end', function() {
+    var specificity = parser(buffer);
+    var output = stats(specificity);
+    console.log('yolo')
+  });
+}
