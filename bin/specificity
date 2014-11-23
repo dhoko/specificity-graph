@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var parser = require('../lib/generateCssData');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
+var buffer = '';
+process.stdin.on('data', function(data) {
+    buffer += data;
+});
+
+process.stdin.on('end', function() {
+  console.log(buffer);
+
+  console.log(parser(buffer));
+});
