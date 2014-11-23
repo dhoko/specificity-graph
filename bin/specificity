@@ -3,6 +3,7 @@
 'use strict';
 
 var parser = require('../lib/generateCssData');
+var stats = require('../lib/cssStats');
 
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
@@ -13,7 +14,10 @@ process.stdin.on('data', function(data) {
 });
 
 process.stdin.on('end', function() {
-  console.log(buffer);
+  // console.log(buffer);
 
-  console.log(parser(buffer));
+  // console.log(parser(buffer));
+  var output = stats(parser(buffer));
+
+  console.log(output)
 });
