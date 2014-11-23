@@ -25,6 +25,8 @@
   ],
   "dependencies": {
     "cli-color": "^0.3.2",
+    "cli-table": "^0.3.1",
+    "commander": "^2.5.0",
     "css-parse": "^2.0.0",
     "cssbeautify": "^0.3.1",
     "d3": "^3.4.13",

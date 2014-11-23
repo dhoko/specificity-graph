@@ -2,22 +2,45 @@
 
 'use strict';
 
+
+var path = require('path');
+var fs = require('fs');
+var colors = require('cli-color');
+var program = require('commander');
 var parser = require('../lib/generateCssData');
 var stats = require('../lib/cssStats');
+var outputCli = require('../lib/outputStatsCli');
 
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
+program
+  .option('-l, --limit', 'Add a limit for selector (over this limit, selectors are bad). Default 25')
+  .option('-a, --analytics', 'Display analytics about your CSS')
+  .option('-v, --verbose')
+  .option('-o, --open', 'Load a CSS')
+  .parse(process.argv);
 
-var buffer = '';
-process.stdin.on('data', function(data) {
-    buffer += data;
-});
+var input = program.args[0] ? path.resolve(program.args[0]) : null;
+var output = program.ouput ? path.resolve(program.output) : null;
+var verbose = program.verbose
 
-process.stdin.on('end', function() {
-  // console.log(buffer);
+if (input && !fs.existsSync(input)) {
+  console.error(colors.red("Unable to read file"), input)
+  process.exit(1)
+}
 
-  // console.log(parser(buffer));
-  var output = stats(parser(buffer));
+console.log(input)
 
-  console.log(output)
-});
+// process.stdin.resume();
+// process.stdin.setEncoding('utf8');
+
+// var buffer = '';
+// process.stdin.on('data', function(data) {
+//     buffer += data;
+// });
+
+// process.stdin.on('end', function() {
+//   var specificity = parser(buffer);
+//   var output = stats(specificity);
+
+//   outputCli.display(output, specificity);
+//   outputCli.analytics(output);
+// });
