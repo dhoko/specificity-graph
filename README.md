@@ -32,9 +32,9 @@ Défault directory is **specificity-graph**.
         └── bundle.js // JS for the graph
 ```
 
-`specicity-css style.css`
-`specicity-css style.css -o my-output-directory`
-`cat style.css | specicity-css > specificity.json`
+- `specificity-graph style.css`
+- `specificity-graph style.css -o my-output-directory`
+- `cat style.css | specificity-graph > specificity.json`
 
 ### Standalone
 If you’re not using npm, you can simply download `specificity-graph-standalone.js`.
