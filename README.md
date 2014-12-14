@@ -25,16 +25,17 @@ Défault directory is **specificity-graph**.
 
 ```shell
 .
-└── specificity-graph // Your backbone app
+└── specificity-graph
     ├── index.html // Graph
     ├── specificity.json // Stats for your css
     └── dist
         └── bundle.js // JS for the graph
 ```
 
-- `specificity-graph style.css`
-- `specificity-graph style.css -o my-output-directory`
-- `cat style.css | specificity-graph > specificity.json`
+- `$ specificity-graph style.css`
+- `$ specificity-graph style.css my-output-directory`
+- `$ specificity-graph style.css -o my-output-directory2`
+- `$ cat style.css | specificity-graph > specificity.json`
 
 ### Standalone
 If you’re not using npm, you can simply download `specificity-graph-standalone.js`.
