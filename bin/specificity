@@ -7,6 +7,7 @@ var path = require('path');
 var fs = require('fs');
 var colors = require('cli-color');
 var program = require('commander');
+var csv = require('../lib/csv');
 var parser = require('../lib/generateCssData');
 var stats = require('../lib/cssStats');
 var outputCli = require('../lib/outputStatsCli');
@@ -40,6 +41,7 @@ if(input) {
     var css = fs.readFileSync(input);
     var specificity = parser(css.toString());
     var statsSpecificity = stats(specificity);
+
 
     if(program.verbose) {
       outputCli.display(statsSpecificity, specificity);
