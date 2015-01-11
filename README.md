@@ -9,6 +9,7 @@ Generate an interactive line graph showing the specificity in your stylesheet. U
 [Online Specificity Graph generator](http://jonassebastianohlsson.com/specificity-graph/)
 
 ## Installation
+
 `npm install specificity-graph`
 
 To get the example `index.html` up and running:
@@ -22,14 +23,13 @@ It creates a directory with a graph for a CSS:
 
 Défault directory is **specificity-graph**.
 
-
 ```shell
 .
-└── specificity-graph
-    ├── index.html // Graph
-    ├── specificity.json // Stats for your css
-    └── dist
-        └── bundle.js // JS for the graph
+  └── specificity-graph
+  ├── index.html // Graph
+  ├── specificity.json // Stats for your css
+  └── dist
+    └── bundle.js // JS for the graph
 ```
 
 - `$ specificity-graph style.css`
@@ -42,18 +42,39 @@ If you’re not using npm, you can simply download `specificity-graph-standalone
 
 
 ## Usage
-`var specificityGraph = require('specificity-graph')`,
+
+```js
+    var specificityGraph = require('specificity-graph')
+```
+
 or if using standalone:
-`<script src='specificity-graph-standalone.js'></script>`
+
+```js
+<script src='specificity-graph-standalone.js'></script>
+```
 
 
 ### Methods
-`specificityGraph.create(css, options)`
-`specificityGraph.update(css)`
-`specificityGraph.draw(cssStats,options)`
+
+- `specificityGraph.create(css, options)`
+- `specificityGraph.update(css)`
+- `specificityGraph.draw(cssStats,options)`
+
+#### Options
+
+- **svgSelector**: Selector for `svg` element to draw specificity graph inside.
+Defaults to `.js-graph`.
+- **width**: default `1000`. You should set a viewBox value on the SVG element to match `width` and `height`, f.e. `viewbox='0 0 1000 4000'`.
+- **height**: default `400`.
+- **showTicks**: (`true` | `false`). Show scale and ticks. Default `false`.
+- **xProp**: (`'selectorIndex'` | `'line'`). What to base the x dimension, 'location in stylesheet' in graph on: index of selector in CSS, or line number for selector in CSS. Default `'selectorIndex'`.
+- **yProp**: default `'specificity'`.
 
 
 ## Changelog
-0.0.2 Prev/Next focus functions
-0.0.1 Npm package
-0.0.0 Initial version
+
+0.0.3 showTicks option (thanks @MadLittleMods), options documentation.  
+0.0.2 Prev/Next focus functions  
+0.0.1 Npm package  
+0.0.0 Initial version  
+
