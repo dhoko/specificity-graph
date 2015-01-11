@@ -13,6 +13,7 @@ Generate an interactive line graph showing the specificity in your stylesheet. U
 `npm install specificity-graph`
 
 To get the example `index.html` up and running:
+
 1. Clone repo
 2. `npm install`
 3. `npm run example`
